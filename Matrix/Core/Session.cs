@@ -10,8 +10,6 @@ namespace Matrix.Core
         public RegionDisplayer Displayer { get; }
         public Random Random { get; private set; }
 
-        public TimeSpan CalculationsFrameTime = TimeSpan.Zero;
-
 
 
         private static readonly Vector2[]
@@ -44,22 +42,41 @@ namespace Matrix.Core
 
             while (true)
             {
-                Display();
+                using (new Clocks.Timer("UI"))
+                    Display();
 
-                var start = DateTime.Now;
-                
-                GenerateLavaActivity();
-                MakeLandFromLava();
-                MoveFluid("lava", 0.6, 0.01);
-                MoveFluid("water", 0.95, 0.02);
-                
-                CalculationsFrameTime = DateTime.Now - start;
+                using (new Clocks.Timer("SYSTEMS"))
+                {
+                    GenerateLavaActivity();
+                    MakeLandFromLava();
+                    MoveFluid(Terrain.Lava, 0.6, 0.01);
+                    MoveFluid(Terrain.Water, 0.95, 0.02);
+                }
             }
         }
 
         public void Display()
         {
-            var startingTime = DateTime.Now;
+            void ShowData(string name, object value)
+            {
+                Console.Write($"{name}: ");
+                switch (value)
+                {
+                    case float f:
+                        Console.Write(f.ToString("F"));
+                        break;
+                    
+                    case double d:
+                        Console.Write(d.ToString("F"));
+                        break;
+                    
+                    default:
+                        Console.Write(value);
+                        break;
+                }
+                Console.Write("\t");
+            }
+            
             Console.ResetColor();
             Console.SetCursorPosition(0, 0);
 
@@ -87,23 +104,21 @@ namespace Matrix.Core
                 
             Console.Write(line);
             Console.CursorVisible = false;
-
-            var frameTime = DateTime.Now - startingTime;
+            
             Console.ResetColor();
-            Console.Write(
-                string.Format(
-                    "UI FPS: {0:F}\t SYSTEMS' FPS: {1}", 
-                    1 / frameTime.TotalSeconds,
-                    1 / CalculationsFrameTime.TotalSeconds));
+            
+            ShowData("AVG UI FQ", 1 / Clocks.ResumeData("UI"));
+            ShowData("AVG SYSTEMS FQ", 1 / Clocks.ResumeData("SYSTEMS"));
+            ShowData("FIELD SIZE", Field.Size);
         }
 
         public void GenerateLavaActivity()
         {
             foreach (var (v, region) in Field)
             {
-                if (Random.NextDouble() < 0.0001 * Math.Exp(-region.Terrain["land"]))
+                if (Random.NextDouble() < 0.0001 * Math.Exp(-region.Terrain[Terrain.Land]))
                 {
-                    region.Terrain["lava"] += region.LavaPotential;
+                    region.Terrain[Terrain.Lava] += region.LavaPotential;
                 }
             }
         }
@@ -116,28 +131,28 @@ namespace Matrix.Core
 
                 foreach (var dir in LandMakingDirections)
                 {
-                    if (region.Terrain["lava"] <= 0) break;
+                    if (region.Terrain[Terrain.Lava] <= 0) break;
                     if (!(v + dir).Inside(Field.Size)) continue;
                     
                     var other = Field[v + dir];
                     
-                    if (other.Terrain["water"] <= 0) continue;
+                    if (other.Terrain[Terrain.Water] <= 0) continue;
                     
-                    region.Terrain["land"]++;
-                    region.Terrain["lava"]--;
-                    other.Terrain["water"]--; // TODO: humidity
+                    region.Terrain[Terrain.Land]++;
+                    region.Terrain[Terrain.Lava]--;
+                    other.Terrain[Terrain.Water]--; // TODO: humidity
                     break;
                 }
 
-                if (region.Terrain["lava"] > 0 && Random.NextDouble() < 0.1)
+                if (region.Terrain[Terrain.Lava] > 0 && Random.NextDouble() < 0.1)
                 {
-                    region.Terrain["land"]++;
-                    region.Terrain["lava"]--;
+                    region.Terrain[Terrain.Land]++;
+                    region.Terrain[Terrain.Lava]--;
                 }
             }
         }
 
-        private void MoveFluid(string fluid, double chance, double waveChance)
+        private void MoveFluid(byte fluid, double chance, double waveChance)
         {
             foreach (var (v, region) in Field)
             {
@@ -148,11 +163,11 @@ namespace Matrix.Core
 
                     var other = Field[v + dir];
                     
-                    var region_sum = region.Terrain.SliceFrom(fluid).Sum();
-                    var other_sum = other.Terrain.SliceFrom(fluid).Sum();
+                    var regionSum = region.Terrain.SliceFrom(fluid);
+                    var otherSum = other.Terrain.SliceFrom(fluid);
                     
-                    if (region_sum - other_sum > 1 && Random.NextDouble() < chance
-                        || region_sum - other_sum == 1 && Random.NextDouble() < waveChance)
+                    if (regionSum - otherSum > 1 && Random.NextDouble() < chance
+                        || regionSum - otherSum == 1 && Random.NextDouble() < waveChance)
                     {
                         other.Terrain[fluid]++;
                         region.Terrain[fluid]--;

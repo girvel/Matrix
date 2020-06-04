@@ -5,13 +5,8 @@ namespace Matrix.Core
 {
     public class Region
     {
-        public Pile<string, int> Terrain = new Pile<string, int>
-        {
-            ["water"] = 2,
-            ["lava"] = 0,
-            ["land"] = 0,
-        };
+        public Terrain Terrain = new Terrain(2, 0, 0);
 
-        public int LavaPotential = 25;
+        public byte LavaPotential = 25;
     }
 }

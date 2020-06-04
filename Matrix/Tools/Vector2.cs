@@ -47,5 +47,7 @@ namespace Matrix.Tools
                 ? Zero <= this && this < a 
                 : a <= this && this < b;
         }
+
+        public override string ToString() => $"{{{X}; {Y}}}";
     }
 }
