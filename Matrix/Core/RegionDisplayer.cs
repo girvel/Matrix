@@ -6,34 +6,67 @@ namespace Matrix.Core
 {
     public class RegionDisplayer
     {
-        public (char character, ConsoleColor foreground, ConsoleColor background) RegionToConsoleAtom(Region region)
+        private (char character, ConsoleColor foreground, ConsoleColor background) _regionToConsoleAtom(Region region)
         {
-            if (region.Terrain[Terrain.Water] > 0)
+            if (region.Terrain[Terrain.WATER] > 0)
             {
-                if (region.Terrain[Terrain.Lava] > 0)
+                var background = ConsoleColor.DarkBlue;
+                if (region.Terrain.Water <= 4)
+                {
+                    background = ConsoleColor.DarkCyan;
+                }
+                else if (region.Terrain.Water <= 7)
+                {
+                    background = ConsoleColor.Blue;
+                }
+
+                if (region.Terrain[Terrain.LAVA] > 0)
                     return (
-                        '~', 
+                        '-', 
                         ConsoleColor.Red,
-                        region.Terrain[Terrain.Water] == 1 ? ConsoleColor.Blue : ConsoleColor.DarkBlue);
+                        background);
+
                 return (
                     ' ', 
                     ConsoleColor.White,
-                    region.Terrain[Terrain.Water] == 1 ? ConsoleColor.Blue : ConsoleColor.DarkBlue);
+                    background);
             }
 
-            if (region.Terrain[Terrain.Lava] > 0)
+            if (region.Terrain[Terrain.LAVA] > 0)
                 return (' ', ConsoleColor.White, ConsoleColor.DarkRed);
             
-            if (region.Terrain[Terrain.Land] <= 1)
-                return (' ', ConsoleColor.White, ConsoleColor.Yellow);
+            if (region.Terrain[Terrain.LAND] <= 3)
+                return (' ', ConsoleColor.DarkGray, ConsoleColor.Yellow);
             
-            if (region.Terrain[Terrain.Land] <= 3)
-                return (' ', ConsoleColor.White, ConsoleColor.DarkYellow);
+            if (region.Terrain[Terrain.LAND] <= 7)
+                return (' ', ConsoleColor.DarkGray, ConsoleColor.DarkYellow);
             
-            if (region.Terrain[Terrain.Land] <= 5)
-                return (' ', ConsoleColor.White, ConsoleColor.Gray);
+            if (region.Terrain[Terrain.LAND] <= 10)
+                return (' ', ConsoleColor.Gray, ConsoleColor.DarkGray);
             
-            return (' ', ConsoleColor.Gray, ConsoleColor.White);
+            return (' ', ConsoleColor.DarkGray, ConsoleColor.Gray);
+        }
+
+        public (char character, ConsoleColor foreground, ConsoleColor background) RegionToConsoleAtom(Region region)
+        {
+            var result = _regionToConsoleAtom(region);
+            if (result.character == ' ')
+            {
+                if (region.IsRaining)
+                    return ('\'', ConsoleColor.White, result.background);
+                // var direction = region.FlowDirection[Terrain.WATER];
+                // if (direction != Vector2.Zero)
+                //     return (
+                //         '~', 
+                //         result.foreground, 
+                //         result.background);
+                if (region.Terrain.Clouds > 0)
+                    return (
+                        '#',
+                        ConsoleColor.White,
+                        result.background);
+            }
+            return result;
         }
     }
 }

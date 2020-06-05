@@ -9,6 +9,7 @@ namespace Matrix.Core
         public Field<Region> Field { get; private set; }
         public RegionDisplayer Displayer { get; }
         public Random Random { get; private set; }
+        public DateTime CurrentDate = new DateTime(1, 1, 1);
 
 
 
@@ -20,6 +21,15 @@ namespace Matrix.Core
             FlowDirections =
             {
                 Vector2.Up, Vector2.Right, Vector2.Down, Vector2.Left,
+            },
+            WindDirections =
+            {
+                Vector2.Right,
+            },
+            GasAdditionalDirections =
+            {
+                Vector2.Up,
+                Vector2.Down,
             };
 
 
@@ -47,10 +57,21 @@ namespace Matrix.Core
 
                 using (new Clocks.Timer("SYSTEMS"))
                 {
-                    GenerateLavaActivity();
-                    MakeLandFromLava();
-                    MoveFluid(Terrain.Lava, 0.6, 0.01);
-                    MoveFluid(Terrain.Water, 0.95, 0.02);
+                    for (var i = 0; i < 1; i++)
+                    {
+                        GenerateLavaActivity();
+                        MakeLandFromLava();
+                        MoveFluid(Terrain.LAVA, 0.6);
+                        MoveFluid(Terrain.LAND, 0.001);
+                        MoveFluid(Terrain.CLOUDS, 0.2);
+                        MoveFluid(Terrain.WATER, 0.95);
+                        MoveGas(Terrain.CLOUDS, 0.95, 0.3);
+                        MakeItRain(0.8);
+                        VaporizeWater(0.001);
+                        RemoveBottomLayers();
+
+                        CurrentDate += TimeSpan.FromDays(1);
+                    }
                 }
             }
         }
@@ -110,15 +131,16 @@ namespace Matrix.Core
             ShowData("AVG UI FQ", 1 / Clocks.ResumeData("UI"));
             ShowData("AVG SYSTEMS FQ", 1 / Clocks.ResumeData("SYSTEMS"));
             ShowData("FIELD SIZE", Field.Size);
+            ShowData("Date", CurrentDate);
         }
 
         public void GenerateLavaActivity()
         {
             foreach (var (v, region) in Field)
             {
-                if (Random.NextDouble() < 0.0001 * Math.Exp(-region.Terrain[Terrain.Land]))
+                if (Random.NextDouble() < 0.00001)
                 {
-                    region.Terrain[Terrain.Lava] += region.LavaPotential;
+                    region.Terrain.Lava += region.LavaPotential;
                 }
             }
         }
@@ -131,31 +153,33 @@ namespace Matrix.Core
 
                 foreach (var dir in LandMakingDirections)
                 {
-                    if (region.Terrain[Terrain.Lava] <= 0) break;
+                    if (region.Terrain[Terrain.LAVA] <= 0) break;
                     if (!(v + dir).Inside(Field.Size)) continue;
                     
                     var other = Field[v + dir];
                     
-                    if (other.Terrain[Terrain.Water] <= 0) continue;
+                    if (other.Terrain[Terrain.WATER] <= 0) continue;
                     
-                    region.Terrain[Terrain.Land]++;
-                    region.Terrain[Terrain.Lava]--;
-                    other.Terrain[Terrain.Water]--; // TODO: humidity
+                    region.Terrain[Terrain.LAND]++;
+                    region.Terrain[Terrain.LAVA]--;
+                    other.Terrain[Terrain.WATER]--;
+                    other.Terrain[Terrain.CLOUDS]++;
                     break;
                 }
 
-                if (region.Terrain[Terrain.Lava] > 0 && Random.NextDouble() < 0.1)
+                if (region.Terrain[Terrain.LAVA] > 0 && Random.NextDouble() < 0.1)
                 {
-                    region.Terrain[Terrain.Land]++;
-                    region.Terrain[Terrain.Lava]--;
+                    region.Terrain[Terrain.LAND]++;
+                    region.Terrain[Terrain.LAVA]--;
                 }
             }
         }
 
-        private void MoveFluid(byte fluid, double chance, double waveChance)
+        public void MoveFluid(byte fluid, double chance)
         {
             foreach (var (v, region) in Field)
             {
+                region.FlowDirection[fluid] = Vector2.Zero;
                 foreach (var dir in FlowDirections)
                 {
                     if (region.Terrain[fluid] == 0) break;
@@ -167,12 +191,80 @@ namespace Matrix.Core
                     var otherSum = other.Terrain.SliceFrom(fluid);
                     
                     if (regionSum - otherSum > 1 && Random.NextDouble() < chance
-                        || regionSum - otherSum == 1 && Random.NextDouble() < waveChance)
+                        || regionSum - otherSum == 1 && Random.NextDouble() < chance / 2)
                     {
                         other.Terrain[fluid]++;
                         region.Terrain[fluid]--;
+                        region.FlowDirection[fluid] = dir;
                     }
                 }
+            }
+        }
+
+        public void MoveGas(byte gas, double maximalChance, double maximalAdditionalChance)
+        {
+            foreach (var (v, region) in Field)
+            {
+                foreach (var dir in WindDirections)
+                {
+                    if (!(v + dir).Inside(Field.Size)) continue;
+
+                    var other = Field[v + dir];
+                    if (Random.NextDouble() >=
+                        maximalChance * Math.Pow(
+                            1.41, 
+                            region.Terrain.SliceFrom(Terrain.CLOUDS)
+                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2))  // TODO: precalc
+                        continue;
+
+                    other.Terrain.Clouds += region.Terrain.Clouds;
+                    region.Terrain.Clouds = 0;
+                    break;
+                }
+
+                foreach (var dir in GasAdditionalDirections)
+                {
+                    if (!(v + dir).Inside(Field.Size)) continue;
+
+                    var other = Field[v + dir];
+                    if (Random.NextDouble() >=
+                        maximalAdditionalChance * Math.Pow(1.41, region.Terrain.Clouds - other.Terrain.SliceFrom())) continue; // TODO: precalc
+
+                    other.Terrain.Clouds += region.Terrain.Clouds;
+                    region.Terrain.Clouds = 0;
+                    break;
+                }
+            }
+        }
+
+        public void MakeItRain(double maximalChance)
+        {
+            foreach (var (v, region) in Field)
+            {
+                region.IsRaining = Random.NextDouble() < maximalChance * (1 - Math.Pow(1.054, -region.Terrain.Clouds)); // TODO: precalc
+                if (!region.IsRaining) continue;
+                region.Terrain.Clouds--;
+                region.Terrain.Water++;
+            }
+        }
+
+        public void VaporizeWater(double chance)
+        {
+            foreach (var (v, region) in Field)
+            {
+                if (region.Terrain.Water <= 0 || Random.NextDouble() >= chance) continue;
+
+                region.Terrain.Water--;
+                region.Terrain.Clouds++;
+            }
+        }
+
+        public void RemoveBottomLayers()
+        {
+            var min = Field.Min(t => t.t.Terrain.Land);
+            foreach (var (v, region) in Field)
+            {
+                region.Terrain.Land -= min;
             }
         }
     }

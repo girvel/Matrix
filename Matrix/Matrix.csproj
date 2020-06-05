@@ -48,6 +48,7 @@
         <Compile Include="Tools\Field.cs" />
         <Compile Include="Tools\IntHelper.cs" />
         <Compile Include="Tools\Terrain.cs" />
+        <Compile Include="Tools\Tool.cs" />
         <Compile Include="Tools\Vector2.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

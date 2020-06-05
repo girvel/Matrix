@@ -49,5 +49,9 @@ namespace Matrix.Tools
         }
 
         public override string ToString() => $"{{{X}; {Y}}}";
+
+        public static bool operator ==(Vector2 v, Vector2 u) => v.X == u.X && v.Y == u.Y;
+
+        public static bool operator !=(Vector2 v, Vector2 u) => !(v == u);
     }
 }

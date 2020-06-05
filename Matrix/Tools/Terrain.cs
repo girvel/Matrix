@@ -5,12 +5,13 @@ namespace Matrix.Tools
 {
     public class Terrain : IEnumerable
     {
-        public const byte Size = 3;
+        public const byte Size = 4;
         
         public const byte
-            Water = 0,
-            Lava = 1,
-            Land = 2;
+            CLOUDS = 0,
+            WATER = 1,
+            LAVA = 2,
+            LAND = 3;
         
         private readonly byte[] _values;
 
@@ -26,7 +27,31 @@ namespace Matrix.Tools
             set => _values[key] = value;
         }
 
-        public byte SliceFrom(byte from)
+        public byte Clouds
+        {
+            get => _values[CLOUDS];
+            set => _values[CLOUDS] = value;
+        }
+
+        public byte Water
+        {
+            get => _values[WATER];
+            set => _values[WATER] = value;
+        }
+
+        public byte Lava
+        {
+            get => _values[LAVA];
+            set => _values[LAVA] = value;
+        }
+
+        public byte Land
+        {
+            get => _values[LAND];
+            set => _values[LAND] = value;
+        }
+
+        public byte SliceFrom(byte from = 0)
         {
             byte result = 0;
             for (; from < Size; from++)
