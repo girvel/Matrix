@@ -6,7 +6,9 @@ namespace Matrix.Core
 {
     public class RegionDisplayer
     {
-        private (char character, ConsoleColor foreground, ConsoleColor background) _regionToConsoleAtom(Region region)
+        private (char character, ConsoleColor foreground, ConsoleColor background) _regionToConsoleAtom(
+            Region region, 
+            byte averageWaterHeight)
         {
             if (region.Terrain[Terrain.WATER] > 0)
             {
@@ -35,21 +37,21 @@ namespace Matrix.Core
             if (region.Terrain[Terrain.LAVA] > 0)
                 return (' ', ConsoleColor.White, ConsoleColor.DarkRed);
             
-            if (region.Terrain[Terrain.LAND] <= 3)
+            if (region.Terrain.Land - averageWaterHeight <= 3)
                 return (' ', ConsoleColor.DarkGray, ConsoleColor.Yellow);
             
-            if (region.Terrain[Terrain.LAND] <= 7)
+            if (region.Terrain.Land - averageWaterHeight <= 7)
                 return (' ', ConsoleColor.DarkGray, ConsoleColor.DarkYellow);
             
-            if (region.Terrain[Terrain.LAND] <= 10)
+            if (region.Terrain.Land - averageWaterHeight <= 10)
                 return (' ', ConsoleColor.Gray, ConsoleColor.DarkGray);
             
             return (' ', ConsoleColor.DarkGray, ConsoleColor.Gray);
         }
 
-        public (char character, ConsoleColor foreground, ConsoleColor background) RegionToConsoleAtom(Region region)
+        public (char character, ConsoleColor foreground, ConsoleColor background) RegionToConsoleAtom(Region region, byte averageWaterHeight)
         {
-            var result = _regionToConsoleAtom(region);
+            var result = _regionToConsoleAtom(region, averageWaterHeight);
             if (result.character == ' ')
             {
                 if (region.IsRaining)

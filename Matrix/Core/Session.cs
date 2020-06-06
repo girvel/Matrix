@@ -10,6 +10,7 @@ namespace Matrix.Core
         public RegionDisplayer Displayer { get; }
         public Random Random { get; private set; }
         public DateTime CurrentDate = new DateTime(1, 1, 1);
+        public byte AverageWaterHeight;
 
 
 
@@ -49,6 +50,7 @@ namespace Matrix.Core
             Field = new Field<Region>(
                 new Vector2(Console.WindowWidth - 1, Console.WindowHeight - 5), 
                 v => new Region());
+            AverageWaterHeight = (byte) Field.Average(t => t.t.Terrain.Water);
 
             while (true)
             {
@@ -57,13 +59,13 @@ namespace Matrix.Core
 
                 using (new Clocks.Timer("SYSTEMS"))
                 {
-                    for (var i = 0; i < 1; i++)
+                    for (var i = 0; i < 30; i++)
                     {
                         GenerateLavaActivity();
                         MakeLandFromLava();
-                        MoveFluid(Terrain.LAVA, 0.6);
-                        MoveFluid(Terrain.LAND, 0.001);
-                        MoveFluid(Terrain.CLOUDS, 0.2);
+                        MoveFluid(Terrain.LAVA, 0.9);
+                        MoveFluid(Terrain.LAND, 0.01);
+                        MoveFluid(Terrain.CLOUDS, 0.95);
                         MoveFluid(Terrain.WATER, 0.95);
                         MoveGas(Terrain.CLOUDS, 0.95, 0.3);
                         MakeItRain(0.8);
@@ -104,7 +106,7 @@ namespace Matrix.Core
             var line = "";
             foreach (var (v, region) in Field)
             {
-                var atom = Displayer.RegionToConsoleAtom(region);
+                var atom = Displayer.RegionToConsoleAtom(region, AverageWaterHeight);
 
                 if (atom.background != Console.BackgroundColor || atom.foreground != Console.ForegroundColor)
                 {
@@ -138,7 +140,7 @@ namespace Matrix.Core
         {
             foreach (var (v, region) in Field)
             {
-                if (Random.NextDouble() < 0.00001)
+                if (Random.NextDouble() < 0.00005)
                 {
                     region.Terrain.Lava += region.LavaPotential;
                 }
@@ -252,8 +254,7 @@ namespace Matrix.Core
         {
             foreach (var (v, region) in Field)
             {
-                if (region.Terrain.Water <= 0 || Random.NextDouble() >= chance) continue;
-
+                if (region.Terrain.Water <= 0 || !(Random.NextDouble() < chance)) continue;
                 region.Terrain.Water--;
                 region.Terrain.Clouds++;
             }
