@@ -67,6 +67,7 @@
     <ItemGroup>
       <Content Include="Constants.json" />
       <Compile Include="Core\Systems\LavaToLand.cs" />
+      <Content Include="README.md" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
