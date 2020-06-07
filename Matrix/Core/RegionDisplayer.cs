@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Matrix.Tools;
 
 namespace Matrix.Core

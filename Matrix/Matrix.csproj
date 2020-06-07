@@ -33,6 +33,10 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+          <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
@@ -42,14 +46,30 @@
         <Compile Include="Core\Region.cs" />
         <Compile Include="Core\RegionDisplayer.cs" />
         <Compile Include="Core\Session.cs" />
+        <Compile Include="Core\System.cs" />
+        <Compile Include="Core\Systems\Cleaning.cs" />
+        <Compile Include="Core\Systems\Display.cs" />
+        <Compile Include="Core\Systems\Evaporation.cs" />
+        <Compile Include="Core\Systems\Flow.cs" />
+        <Compile Include="Core\Systems\Rain.cs" />
+        <Compile Include="Core\Systems\Volcanoes.cs" />
+        <Compile Include="Core\Systems\Wind.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Tools\Clocks.cs" />
         <Compile Include="Tools\Field.cs" />
         <Compile Include="Tools\IntHelper.cs" />
+        <Compile Include="Tools\ConstantAttribute.cs" />
         <Compile Include="Tools\Terrain.cs" />
         <Compile Include="Tools\Tool.cs" />
         <Compile Include="Tools\Vector2.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="Constants.json" />
+      <Compile Include="Core\Systems\LavaToLand.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

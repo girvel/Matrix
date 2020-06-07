@@ -4,3 +4,6 @@ D:\Users\widau\RiderProjects\Matrix\Matrix\obj\Debug\Matrix.csprojAssemblyRefere
 D:\Users\widau\RiderProjects\Matrix\Matrix\obj\Debug\Matrix.csproj.CoreCompileInputs.cache
 D:\Users\widau\RiderProjects\Matrix\Matrix\obj\Debug\Matrix.exe
 D:\Users\widau\RiderProjects\Matrix\Matrix\obj\Debug\Matrix.pdb
+D:\Users\widau\RiderProjects\Matrix\Matrix\bin\Debug\Newtonsoft.Json.dll
+D:\Users\widau\RiderProjects\Matrix\Matrix\bin\Debug\Newtonsoft.Json.xml
+D:\Users\widau\RiderProjects\Matrix\Matrix\obj\Debug\Matrix.csproj.CopyComplete

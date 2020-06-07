@@ -13,12 +13,15 @@ namespace Matrix.Tools
             LAVA = 2,
             LAND = 3;
         
-        private readonly byte[] _values;
+        private readonly byte[] _values = new byte[Size];
 
         public Terrain(params byte[] values)
         {
             Debug.Assert(values.Length == Size);
-            _values = values;
+            for (var i = 0; i < Size; i++)
+            {
+                _values[i] = values[i];
+            }
         }
 
         public byte this[byte key]
