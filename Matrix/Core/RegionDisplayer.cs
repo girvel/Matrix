@@ -36,7 +36,7 @@ namespace Matrix.Core
             if (region.Terrain[Terrain.LAVA] > 0)
                 return (' ', ConsoleColor.White, ConsoleColor.DarkRed);
             
-            if (region.Terrain.Land - averageWaterHeight <= 3)
+            if (region.Terrain.Land - averageWaterHeight <= 1)
                 return (' ', ConsoleColor.DarkGray, ConsoleColor.Yellow);
             
             if (region.Terrain.Land - averageWaterHeight <= 7)

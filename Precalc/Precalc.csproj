@@ -4,14 +4,13 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{1B6F698E-9911-4CBD-BD76-5780BA615BF2}</ProjectGuid>
-        <OutputType>Exe</OutputType>
+        <ProjectGuid>{6E661B25-E6E2-4254-9249-9919D75A628A}</ProjectGuid>
+        <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Matrix</RootNamespace>
-        <AssemblyName>Matrix</AssemblyName>
+        <RootNamespace>Precalc</RootNamespace>
+        <AssemblyName>Precalc</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <LangVersion>8</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,51 +32,14 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-          <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Core\Region.cs" />
-        <Compile Include="Core\RegionDisplayer.cs" />
-        <Compile Include="Core\Session.cs" />
-        <Compile Include="Core\System.cs" />
-        <Compile Include="Core\Systems\Cleaning.cs" />
-        <Compile Include="Core\Systems\Display.cs" />
-        <Compile Include="Core\Systems\Evaporation.cs" />
-        <Compile Include="Core\Systems\Flow.cs" />
-        <Compile Include="Core\Systems\Rain.cs" />
-        <Compile Include="Core\Systems\Volcanoes.cs" />
-        <Compile Include="Core\Systems\Wind.cs" />
-        <Compile Include="Program.cs" />
+        <Compile Include="NaturalFunction.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Tools\Clocks.cs" />
-        <Compile Include="Tools\Field.cs" />
-        <Compile Include="Tools\IntHelper.cs" />
-        <Compile Include="Tools\ConstantAttribute.cs" />
-        <Compile Include="Tools\RandomHelper.cs" />
-        <Compile Include="Tools\Terrain.cs" />
-        <Compile Include="Tools\Tool.cs" />
-        <Compile Include="Tools\Vector2.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="Constants.json" />
-      <Compile Include="Core\Systems\LavaToLand.cs" />
-      <Content Include="README.md" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\Precalc\Precalc.csproj">
-        <Project>{6e661b25-e6e2-4254-9249-9919d75a628a}</Project>
-        <Name>Precalc</Name>
-      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

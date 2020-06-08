@@ -1,5 +1,6 @@
 ﻿using System;
 using Matrix.Tools;
+using Precalc;
 
 namespace Matrix.Core.Systems
 {
@@ -14,8 +15,24 @@ namespace Matrix.Core.Systems
                 Vector2.Up,
                 Vector2.Down,
             };
+
+        public readonly NaturalFunction<double>[] ChanceFunctions;
+
+        public Wind()
+        {
+            ChanceFunctions = new NaturalFunction<double>[Terrain.Size];
+
+            for (var i = 0; i < ChanceFunctions.Length; i++)
+            {
+                var chance = BasicChances[i];
+                ChanceFunctions[i] = new NaturalFunction<double>(
+                    delta => chance * Math.Pow(1.41, delta),
+                    20,
+                    -10);
+            }
+        }
         
-        public void MoveGas(byte gas, double maximalChance)
+        public void MoveGas(byte gas)
         {
             foreach (var (v, region) in Session.Field)
             {
@@ -24,11 +41,11 @@ namespace Matrix.Core.Systems
                     if (!(v + dir).Inside(Session.Field.Size)) continue;
 
                     var other = Session.Field[v + dir];
-                    if (Session.Random.NextDouble() >=
-                        maximalChance * Math.Pow(
-                            1.41, 
-                            region.Terrain.SliceFrom(Terrain.CLOUDS)
-                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2))  // TODO: precalc
+                    
+                    if (!Session.Random.Chance(
+                        ChanceFunctions[gas].Calculate(
+                            region.Terrain.SliceFrom(Terrain.CLOUDS) 
+                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2)))  // TODO: precalc
                         continue;
 
                     other.Terrain.Clouds += region.Terrain.Clouds;
@@ -41,8 +58,10 @@ namespace Matrix.Core.Systems
                     if (!(v + dir).Inside(Session.Field.Size)) continue;
 
                     var other = Session.Field[v + dir];
-                    if (Session.Random.NextDouble() >=
-                        maximalChance / 2 * Math.Pow(1.41, region.Terrain.Clouds - other.Terrain.SliceFrom())) continue; // TODO: precalc
+                    if (!Session.Random.Chance(
+                        ChanceFunctions[gas].Calculate(
+                            region.Terrain.SliceFrom(Terrain.CLOUDS) 
+                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2) / 2)) continue; // TODO: precalc
 
                     other.Terrain.Clouds += region.Terrain.Clouds;
                     region.Terrain.Clouds = 0;
@@ -58,7 +77,7 @@ namespace Matrix.Core.Systems
             for (byte i = 0; i < Terrain.Size; i++)
             {
                 if (BasicChances[i] > 0)
-                    MoveGas(i, BasicChances[i]);
+                    MoveGas(i);
             }
         }
     }
