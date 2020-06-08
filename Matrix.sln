@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix", "Matrix\Matrix.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Precalc", "Precalc\Precalc.csproj", "{6E661B25-E6E2-4254-9249-9919D75A628A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrecalcTest", "PrecalcTest\PrecalcTest.csproj", "{B40694C2-8B9A-4B47-B173-AE9A3813A161}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{6E661B25-E6E2-4254-9249-9919D75A628A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E661B25-E6E2-4254-9249-9919D75A628A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E661B25-E6E2-4254-9249-9919D75A628A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B40694C2-8B9A-4B47-B173-AE9A3813A161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40694C2-8B9A-4B47-B173-AE9A3813A161}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40694C2-8B9A-4B47-B173-AE9A3813A161}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40694C2-8B9A-4B47-B173-AE9A3813A161}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -4,29 +4,29 @@ namespace Precalc
 {
     public class NaturalFunction<TReturn>
     {
-        private readonly TReturn[] PrecalculatedValues;
+        private readonly TReturn[] _precalculatedValues;
 
-        private readonly Func<int, TReturn> Function;
+        private readonly Func<int, TReturn> _function;
 
-        private readonly int StartingValue;
+        private readonly int _startingValue;
 
         public NaturalFunction(Func<int, TReturn> function, int precalcSize, int startingValue = 0)
         {
-            Function = function;
-            StartingValue = startingValue;
+            _function = function;
+            _startingValue = startingValue;
 
-            PrecalculatedValues = new TReturn[precalcSize];
-            for (var i = 0; i < PrecalculatedValues.Length; i++)
+            _precalculatedValues = new TReturn[precalcSize];
+            for (var i = 0; i < _precalculatedValues.Length; i++)
             {
-                PrecalculatedValues[i] = Function(i + StartingValue);
+                _precalculatedValues[i] = _function(i + _startingValue);
             }
         }
 
         public TReturn Calculate(int argument)
         {
-            return StartingValue <= argument && argument < PrecalculatedValues.Length + StartingValue
-                ? PrecalculatedValues[argument - StartingValue] 
-                : Function(argument);
+            return _startingValue <= argument && argument < _precalculatedValues.Length + _startingValue
+                ? _precalculatedValues[argument - _startingValue] 
+                : _function(argument);
         }
     }
 }

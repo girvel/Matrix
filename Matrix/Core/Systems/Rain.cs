@@ -21,7 +21,7 @@ namespace Matrix.Core.Systems
         {
             foreach (var (v, region) in Session.Field)
             {
-                region.IsRaining = Session.Random.Chance(ChanceFunction.Calculate(region.Terrain.Clouds)); // TODO: precalc
+                region.IsRaining = Session.Random.Chance(ChanceFunction.Calculate(region.Terrain.Clouds));
                 if (!region.IsRaining) continue;
                 region.Terrain.Clouds--;
                 region.Terrain.Water++;

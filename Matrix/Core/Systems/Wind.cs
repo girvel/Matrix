@@ -45,7 +45,7 @@ namespace Matrix.Core.Systems
                     if (!Session.Random.Chance(
                         ChanceFunctions[gas].Calculate(
                             region.Terrain.SliceFrom(Terrain.CLOUDS) 
-                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2)))  // TODO: precalc
+                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2)))
                         continue;
 
                     other.Terrain.Clouds += region.Terrain.Clouds;
@@ -61,7 +61,7 @@ namespace Matrix.Core.Systems
                     if (!Session.Random.Chance(
                         ChanceFunctions[gas].Calculate(
                             region.Terrain.SliceFrom(Terrain.CLOUDS) 
-                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2) / 2)) continue; // TODO: precalc
+                            - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2) / 2)) continue;
 
                     other.Terrain.Clouds += region.Terrain.Clouds;
                     region.Terrain.Clouds = 0;
