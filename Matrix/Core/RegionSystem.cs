@@ -1,5 +1,5 @@
-﻿using Matrix.Tools;
-using NotImplementedException = System.NotImplementedException;
+﻿using System.Threading.Tasks;
+using Matrix.Tools;
 
 namespace Matrix.Core
 {
@@ -7,7 +7,7 @@ namespace Matrix.Core
     {
         protected abstract void UpdateEntity(int2 position, Region region);
 
-        public override void Update()
+        protected override void _update()
         {
             foreach (var (position, region) in Session.Field)
             {

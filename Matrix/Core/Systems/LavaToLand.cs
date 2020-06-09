@@ -1,5 +1,4 @@
 ﻿using Matrix.Tools;
-using NotImplementedException = System.NotImplementedException;
 
 namespace Matrix.Core.Systems
 {
@@ -10,9 +9,11 @@ namespace Matrix.Core.Systems
             int2.Zero, int2.Up, int2.Right, int2.Down, int2.Left,
         };
 
+        [Constant] public double BasicChance, AdditionalChance;
+
         protected override void UpdateEntity(int2 v, Region region)
         {
-            if (Session.Random.NextDouble() >= 0.95) return;
+            if (!Session.Random.Chance(BasicChance)) return;
 
             foreach (var dir in Directions)
             {
@@ -30,11 +31,10 @@ namespace Matrix.Core.Systems
                 break;
             }
 
-            if (region.Terrain[Terrain.LAVA] > 0 && Session.Random.NextDouble() < 0.1)
-            {
-                region.Terrain[Terrain.LAND]++;
-                region.Terrain[Terrain.LAVA]--;
-            }
+            if (region.Terrain[Terrain.LAVA] <= 0 || !Session.Random.Chance(AdditionalChance)) return;
+            
+            region.Terrain[Terrain.LAND]++;
+            region.Terrain[Terrain.LAVA]--;
         }
     }
 }

@@ -13,11 +13,14 @@ namespace Matrix.Tools
         
         
         public readonly int X, Y;
+        public readonly double Area;
 
         public int2(int x, int y)
         {
             X = x;
             Y = y;
+
+            Area = X * Y;
         }
 
         public static int2 operator +(int2 v1, int2 v2)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Matrix.Tools
 {
-    public class Field<T> : IEnumerable<(int2 v, T t)>
+    public class Field<T> : IEnumerable<(int2 v, T content)>
     {
         protected readonly T[] InternalArray;
 
@@ -41,7 +41,7 @@ namespace Matrix.Tools
             }
         }
         
-        public IEnumerator<(int2 v, T t)> GetEnumerator()
+        public IEnumerator<(int2 v, T content)> GetEnumerator()
         {
             return _getEnumerable().GetEnumerator();
         }

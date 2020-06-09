@@ -7,7 +7,7 @@ namespace Matrix.Core.Systems
     {
         public RegionDisplayer Displayer { get; } = new RegionDisplayer();
         
-        private void ShowData(string name, object value)
+        private void ShowData(string name, object value, string unitOfMeasure=null)
         {
             Console.Write($"{name}: ");
             switch (value)
@@ -24,10 +24,16 @@ namespace Matrix.Core.Systems
                     Console.Write(value);
                     break;
             }
+
+            if (unitOfMeasure != null)
+            {
+                Console.Write(" " + unitOfMeasure);
+            }
+            
             Console.Write("\t");
         }
         
-        public override void Update()
+        protected override void _update()
         {
             Console.ResetColor();
             Console.SetCursorPosition(0, 0);
@@ -59,9 +65,8 @@ namespace Matrix.Core.Systems
             
             Console.ResetColor();
             
-            ShowData("AVG UI FQ", 1 / Clocks.ResumeData("UI"));
-            ShowData("AVG SYSTEMS FQ", 1 / Clocks.ResumeData("SYSTEMS"));
-            ShowData("FIELD SIZE", Session.Field.Size);
+            ShowData("FPS", 1 / Clocks.ResumeData("FPS"));
+            ShowData("Size", Session.Field.Size.Area / 0.4047, "acre");
             ShowData("Date", Session.CurrentDate);
         }
     }

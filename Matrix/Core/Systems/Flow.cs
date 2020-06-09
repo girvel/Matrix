@@ -23,8 +23,8 @@ namespace Matrix.Core.Systems
                 var regionSum = region.Terrain.SliceFrom(fluid);
                 var otherSum = other.Terrain.SliceFrom(fluid);
                 
-                if (regionSum - otherSum > 1 && Session.Random.NextDouble() < chance
-                    || regionSum - otherSum == 1 && Session.Random.NextDouble() < chance / 2)
+                if (regionSum - otherSum > 1 && Session.Random.Chance(chance)
+                    || regionSum - otherSum == 1 && Session.Random.Chance(chance / 2))
                 {
                     other.Terrain[fluid]++;
                     region.Terrain[fluid]--;

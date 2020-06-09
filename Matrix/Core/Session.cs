@@ -1,15 +1,17 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Matrix.Core.Systems;
 using Matrix.Tools;
+using Newtonsoft.Json;
 
 namespace Matrix.Core
 {
     public class Session
     {
         public Field<Region> Field { get; private set; }
-        public Random Random { get; private set; }
-        public Core.System[] Systems;
+        public volatile Random Random;
+        public System[] Systems;
         
         public DateTime CurrentDate = new DateTime(1, 1, 1);
         public byte AverageWaterHeight;
@@ -43,18 +45,32 @@ namespace Matrix.Core
             Field = new Field<Region>(
                 new int2(Console.WindowWidth - 1, Console.WindowHeight - 5), 
                 v => new Region());
-            AverageWaterHeight = (byte) Field.Average(t => t.t.Terrain.Water);
+            AverageWaterHeight = (byte) Field.Average(t => t.content.Terrain.Water);
+
+            Console.CancelKeyPress += (o, args) =>
+            {
+                var directory = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "Matrix");
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                using var file =
+                    File.OpenWrite(Path.Combine(directory, $"Statistics of {DateTime.Now:dd.MM.yyyy HH-mm-ss}.json"));
+                using var writer = new StreamWriter(file);
+                writer.Write(JsonConvert.SerializeObject(System.GetFrequency(Systems), Formatting.Indented));
+            };
 
             while (true)
             {
-                using (new Clocks.Timer("UI"))
-                    Systems[0].Update();
-
-                using (new Clocks.Timer("SYSTEMS"))
+                using (new Clocks.Timer("FPS"))
                 {
-                    for (var i = 1; i < Systems.Length; i++)
+                    foreach (var s in Systems)
                     {
-                        Systems[i].Update();
+                        s.Update();
                     }
 
                     CurrentDate += TimeSpan.FromDays(1);
