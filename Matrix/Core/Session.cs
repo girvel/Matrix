@@ -9,7 +9,7 @@ namespace Matrix.Core
     {
         public Field<Region> Field { get; private set; }
         public Random Random { get; private set; }
-        public System[] Systems;
+        public Core.System[] Systems;
         
         public DateTime CurrentDate = new DateTime(1, 1, 1);
         public byte AverageWaterHeight;
@@ -21,7 +21,7 @@ namespace Matrix.Core
             Console.CursorVisible = false;
             Console.Title = "Matrix";
 
-            Systems = new System[]
+            Systems = new Core.System[]
             {
                 new Display(), 
                 new Volcanoes(), 
@@ -41,7 +41,7 @@ namespace Matrix.Core
             Console.Write("Seed: @");
             Random = new Random(Console.ReadLine()?.GetHashCode() ?? 0);
             Field = new Field<Region>(
-                new Vector2(Console.WindowWidth - 1, Console.WindowHeight - 5), 
+                new int2(Console.WindowWidth - 1, Console.WindowHeight - 5), 
                 v => new Region());
             AverageWaterHeight = (byte) Field.Average(t => t.t.Terrain.Water);
 

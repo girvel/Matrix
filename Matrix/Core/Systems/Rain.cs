@@ -4,7 +4,7 @@ using Precalc;
 
 namespace Matrix.Core.Systems
 {
-    public class Rain : System
+    public class Rain : RegionSystem
     {
         [Constant] public double BasicChance;
 
@@ -17,15 +17,12 @@ namespace Matrix.Core.Systems
                 10);
         }
 
-        public override void Update()
+        protected override void UpdateEntity(int2 position, Region region)
         {
-            foreach (var (v, region) in Session.Field)
-            {
-                region.IsRaining = Session.Random.Chance(ChanceFunction.Calculate(region.Terrain.Clouds));
-                if (!region.IsRaining) continue;
-                region.Terrain.Clouds--;
-                region.Terrain.Water++;
-            }
+            region.IsRaining = Session.Random.Chance(ChanceFunction.Calculate(region.Terrain.Clouds));
+            if (!region.IsRaining) return;
+            region.Terrain.Clouds--;
+            region.Terrain.Water++;
         }
     }
 }

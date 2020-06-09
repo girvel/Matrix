@@ -3,7 +3,7 @@ using Matrix.Tools;
 
 namespace Matrix.Core.Systems
 {
-    public class Display : System
+    public class Display : Core.System
     {
         public RegionDisplayer Displayer { get; } = new RegionDisplayer();
         

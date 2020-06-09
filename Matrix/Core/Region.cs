@@ -11,6 +11,6 @@ namespace Matrix.Core
         public bool 
             IsRaining = false;
 
-        public readonly Vector2[] FlowDirection = new Vector2[Terrain.Size];
+        public readonly int2[] FlowDirection = new int2[Terrain.Size];
     }
 }

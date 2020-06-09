@@ -7,9 +7,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Matrix.Tools
 {
+    [AttributeUsage(AttributeTargets.Field)]
     public class ConstantAttribute : Attribute
     {
-        private static JObject FileData;
+        private static readonly JObject FileData;
 
         static ConstantAttribute()
         {

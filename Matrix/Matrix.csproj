@@ -43,6 +43,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Core\RegionSystem.cs" />
         <Compile Include="Core\Region.cs" />
         <Compile Include="Core\RegionDisplayer.cs" />
         <Compile Include="Core\Session.cs" />
@@ -51,6 +52,7 @@
         <Compile Include="Core\Systems\Display.cs" />
         <Compile Include="Core\Systems\Evaporation.cs" />
         <Compile Include="Core\Systems\Flow.cs" />
+        <Compile Include="Core\Systems\LavaToLand.cs" />
         <Compile Include="Core\Systems\Rain.cs" />
         <Compile Include="Core\Systems\Volcanoes.cs" />
         <Compile Include="Core\Systems\Wind.cs" />
@@ -63,11 +65,10 @@
         <Compile Include="Tools\RandomHelper.cs" />
         <Compile Include="Tools\Terrain.cs" />
         <Compile Include="Tools\Tool.cs" />
-        <Compile Include="Tools\Vector2.cs" />
+        <Compile Include="Tools\int2.cs" />
     </ItemGroup>
     <ItemGroup>
       <Content Include="Constants.json" />
-      <Compile Include="Core\Systems\LavaToLand.cs" />
       <Content Include="README.md" />
     </ItemGroup>
     <ItemGroup>
@@ -78,6 +79,9 @@
         <Project>{6e661b25-e6e2-4254-9249-9919d75a628a}</Project>
         <Name>Precalc</Name>
       </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Game" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

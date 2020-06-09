@@ -1,42 +1,39 @@
-﻿using System;
-using Matrix.Tools;
+﻿using Matrix.Tools;
+using NotImplementedException = System.NotImplementedException;
 
 namespace Matrix.Core.Systems
 {
-    public class LavaToLand : System
+    public class LavaToLand : RegionSystem
     {
-        public readonly Vector2[] Directions =
+        public readonly int2[] Directions =
         {
-            Vector2.Zero, Vector2.Up, Vector2.Right, Vector2.Down, Vector2.Left,
+            int2.Zero, int2.Up, int2.Right, int2.Down, int2.Left,
         };
-        
-        public override void Update()
+
+        protected override void UpdateEntity(int2 v, Region region)
         {
-            foreach (var (v, region) in Session.Field)
+            if (Session.Random.NextDouble() >= 0.95) return;
+
+            foreach (var dir in Directions)
             {
-                if (Session.Random.NextDouble() >= 0.95) continue;
+                if (region.Terrain[Terrain.LAVA] <= 0) break;
+                if (!(v + dir).Inside(Session.Field.Size)) continue;
+                    
+                var other = Session.Field[v + dir];
+                    
+                if (other.Terrain[Terrain.WATER] <= 0) continue;
+                    
+                region.Terrain[Terrain.LAND]++;
+                region.Terrain[Terrain.LAVA]--;
+                other.Terrain[Terrain.WATER]--;
+                other.Terrain[Terrain.CLOUDS]++;
+                break;
+            }
 
-                foreach (var dir in Directions)
-                {
-                    if (region.Terrain[Terrain.LAVA] <= 0) break;
-                    if (!(v + dir).Inside(Session.Field.Size)) continue;
-                    
-                    var other = Session.Field[v + dir];
-                    
-                    if (other.Terrain[Terrain.WATER] <= 0) continue;
-                    
-                    region.Terrain[Terrain.LAND]++;
-                    region.Terrain[Terrain.LAVA]--;
-                    other.Terrain[Terrain.WATER]--;
-                    other.Terrain[Terrain.CLOUDS]++;
-                    break;
-                }
-
-                if (region.Terrain[Terrain.LAVA] > 0 && Session.Random.NextDouble() < 0.1)
-                {
-                    region.Terrain[Terrain.LAND]++;
-                    region.Terrain[Terrain.LAVA]--;
-                }
+            if (region.Terrain[Terrain.LAVA] > 0 && Session.Random.NextDouble() < 0.1)
+            {
+                region.Terrain[Terrain.LAND]++;
+                region.Terrain[Terrain.LAVA]--;
             }
         }
     }

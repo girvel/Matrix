@@ -1,21 +1,16 @@
-﻿using System;
-using Matrix.Tools;
-using Precalc;
+﻿using Matrix.Tools;
 
 namespace Matrix.Core.Systems
 {
-    public class Evaporation : System
+    public class Evaporation : RegionSystem
     {
         [Constant] public double BasicChance;
 
-        public override void Update()
+        protected override void UpdateEntity(int2 position, Region region)
         {
-            foreach (var (v, region) in Session.Field)
-            {
-                if (region.Terrain.Water <= 0 || !(Session.Random.NextDouble() < BasicChance)) continue;
-                region.Terrain.Water--;
-                region.Terrain.Clouds++;
-            }
+            if (region.Terrain.Water <= 0 || !(Session.Random.NextDouble() < BasicChance)) return;
+            region.Terrain.Water--;
+            region.Terrain.Clouds++;
         }
     }
 }

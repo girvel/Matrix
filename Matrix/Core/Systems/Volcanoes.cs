@@ -1,20 +1,17 @@
-﻿using System;
-using Matrix.Tools;
+﻿using Matrix.Tools;
+using NotImplementedException = System.NotImplementedException;
 
 namespace Matrix.Core.Systems
 {
-    public class Volcanoes : System
+    public class Volcanoes : RegionSystem
     {
         [Constant] public double BasicChance;
 
-        public override void Update()
+        protected override void UpdateEntity(int2 position, Region region)
         {
-            foreach (var (v, region) in Session.Field)
+            if (Session.Random.NextDouble() < BasicChance)
             {
-                if (Session.Random.NextDouble() < BasicChance)
-                {
-                    region.Terrain.Lava += region.LavaPotential;
-                }
+                region.Terrain.Lava += region.LavaPotential;
             }
         }
     }
