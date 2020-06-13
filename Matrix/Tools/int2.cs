@@ -13,7 +13,7 @@ namespace Matrix.Tools
         
         
         public readonly int X, Y;
-        public readonly double Area;
+        public readonly int Area;
 
         public int2(int x, int y)
         {

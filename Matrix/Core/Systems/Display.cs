@@ -5,6 +5,13 @@ namespace Matrix.Core.Systems
 {
     public class Display : Core.System
     {
+#if DEBUG
+        public Display()
+        {
+            Rarity = 30;
+        }
+#endif
+        
         public RegionDisplayer Displayer { get; } = new RegionDisplayer();
         
         private void ShowData(string name, object value, string unitOfMeasure=null)

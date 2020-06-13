@@ -42,9 +42,11 @@ namespace Matrix.Core
             
             Console.Write("Seed: @");
             Random = new Random(Console.ReadLine()?.GetHashCode() ?? 0);
-            Field = new Field<Region>(
+            
+            Field = new WorldFactory().Produce(
                 new int2(Console.WindowWidth - 1, Console.WindowHeight - 5), 
-                v => new Region());
+                Random);
+            
             AverageWaterHeight = (byte) Field.Average(t => t.content.Terrain.Water);
 
             Console.CancelKeyPress += (o, args) =>

@@ -43,7 +43,7 @@ namespace Matrix.Core.Systems
                 var other = Session.Field[v + dir];
                 
                 if (!Session.Random.Chance(
-                    ChanceFunctions[gas].Calculate(
+                    ChanceFunctions[gas].Calculate( 
                         region.Terrain.SliceFrom(Terrain.CLOUDS) 
                         - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2)))
                     continue;
