@@ -39,6 +39,9 @@ namespace Matrix.Tools
         }
 
         public static float2 operator +(int2 v1, float2 v2) => v2 + v1;
+        
+        public static float2 operator %(float2 v1, int2 v2)
+            => new float2(v1.X % v2.X, v1.Y % v2.Y);
 
         public static explicit operator int2(float2 v)
         {
@@ -49,6 +52,7 @@ namespace Matrix.Tools
 
         public float2 Rotated(double angle)
         {
+            angle *= Math.PI / 180;
             var (sin, cos) = ((float) Math.Sin(angle), (float) Math.Cos(angle));
 
             return new float2(

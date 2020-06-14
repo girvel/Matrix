@@ -11,5 +11,8 @@ namespace Matrix.Tools
                 return random.NextDouble() < chance;
             // }
         }
+
+        public static double NextDouble(this Random random, double a, double b) 
+            => random.NextDouble() * (b - a) + a;
     }
 }

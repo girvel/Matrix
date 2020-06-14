@@ -50,6 +50,8 @@ namespace Matrix.Tools
                 ? Zero <= this && this < a 
                 : a <= this && this < b;
         }
+        
+        public static implicit operator float2(int2 original) => new float2(original.X, original.Y);
 
         public override string ToString() => $"{{{X}; {Y}}}";
 

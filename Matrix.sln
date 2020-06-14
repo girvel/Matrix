@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Precalc", "Precalc\Precalc.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrecalcTest", "PrecalcTest\PrecalcTest.csproj", "{B40694C2-8B9A-4B47-B173-AE9A3813A161}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix.Tests", "Matrix.Tests\Matrix.Tests.csproj", "{C3C9F490-5640-44EF-ADE8-73EF90CBFA29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{B40694C2-8B9A-4B47-B173-AE9A3813A161}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B40694C2-8B9A-4B47-B173-AE9A3813A161}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B40694C2-8B9A-4B47-B173-AE9A3813A161}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3C9F490-5640-44EF-ADE8-73EF90CBFA29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3C9F490-5640-44EF-ADE8-73EF90CBFA29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3C9F490-5640-44EF-ADE8-73EF90CBFA29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3C9F490-5640-44EF-ADE8-73EF90CBFA29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
