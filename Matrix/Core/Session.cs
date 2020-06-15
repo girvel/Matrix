@@ -46,8 +46,6 @@ namespace Matrix.Core
             Field = new WorldFactory().Produce(
                 new int2(Console.WindowWidth - 1, Console.WindowHeight - 5), 
                 Random);
-            
-            AverageWaterHeight = (byte) Field.Average(t => t.content.Terrain.Water);
 
             Console.CancelKeyPress += (o, args) =>
             {
@@ -76,6 +74,10 @@ namespace Matrix.Core
                     }
 
                     CurrentDate += TimeSpan.FromDays(1);
+            
+                    AverageWaterHeight = (byte) Field
+                        .Where(t => t.content.Terrain.Water != 0)
+                        .Average(t => t.content.Terrain.SliceFrom(Terrain.WATER));
                 }
             }
         }

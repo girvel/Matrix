@@ -5,7 +5,7 @@ namespace Matrix.Core
 {
     public class WorldFactory
     {
-        public byte DefaultLavaPotential = 50;
+        public byte DefaultLavaPotential = 25;
 
         public double RiftsDensity = 0.027;
 

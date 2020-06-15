@@ -1,4 +1,5 @@
-﻿using Matrix.Tools;
+﻿using System.Linq;
+using Matrix.Tools;
 using NotImplementedException = System.NotImplementedException;
 
 namespace Matrix.Core.Systems
@@ -9,11 +10,24 @@ namespace Matrix.Core.Systems
         {
             int2.Up, int2.Right, int2.Down, int2.Left,
         };
+
+        public int2[][] RandomizedDirections;
+
+        public Flow()
+        {
+            RandomizedDirections = Enumerable
+                .Range(0, Directions.Length)
+                .Select(i => Enumerable
+                    .Range(i, Directions.Length)
+                    .Select(j => Directions[j % Directions.Length])
+                    .ToArray())
+                .ToArray();
+        }
         
         public void MoveFluid(int2 v, Region region, byte fluid, double chance)
         {
             region.FlowDirection[fluid] = int2.Zero;
-            foreach (var dir in Directions)
+            foreach (var dir in RandomizedDirections[Session.Random.Next(Directions.Length)])
             {
                 if (region.Terrain[fluid] == 0) break;
                 if (!(v + dir).Inside(Session.Field.Size)) continue;
@@ -22,14 +36,12 @@ namespace Matrix.Core.Systems
                 
                 var regionSum = region.Terrain.SliceFrom(fluid);
                 var otherSum = other.Terrain.SliceFrom(fluid);
+
+                if (regionSum - otherSum <= 0 || !Session.Random.Chance(chance)) continue;
                 
-                if (regionSum - otherSum > 1 && Session.Random.Chance(chance)
-                    || regionSum - otherSum == 1 && Session.Random.Chance(chance / 2))
-                {
-                    other.Terrain[fluid]++;
-                    region.Terrain[fluid]--;
-                    region.FlowDirection[fluid] = dir;
-                }
+                other.Terrain[fluid]++;
+                region.Terrain[fluid]--;
+                region.FlowDirection[fluid] = dir;
             }
         }
 
