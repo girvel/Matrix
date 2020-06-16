@@ -4,14 +4,14 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{1B6F698E-9911-4CBD-BD76-5780BA615BF2}</ProjectGuid>
+        <ProjectGuid>{2B0221CB-70EF-494A-BD69-FC517AA22028}</ProjectGuid>
         <OutputType>Exe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Matrix</RootNamespace>
-        <AssemblyName>Matrix</AssemblyName>
+        <RootNamespace>AngemFactory</RootNamespace>
+        <AssemblyName>AngemFactory</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <LangVersion>8</LangVersion>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,60 +33,22 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-          <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Core\RegionSystem.cs" />
-        <Compile Include="Core\Region.cs" />
-        <Compile Include="Core\RegionDisplayer.cs" />
-        <Compile Include="Core\Session.cs" />
-        <Compile Include="Core\System.cs" />
-        <Compile Include="Core\Systems\Cleaning.cs" />
-        <Compile Include="Core\Systems\Display.cs" />
-        <Compile Include="Core\Systems\Evaporation.cs" />
-        <Compile Include="Core\Systems\Flow.cs" />
-        <Compile Include="Core\Systems\LavaToLand.cs" />
-        <Compile Include="Core\Systems\Rain.cs" />
-        <Compile Include="Core\Systems\Volcanoes.cs" />
-        <Compile Include="Core\Systems\Wind.cs" />
-        <Compile Include="Core\WorldFactory.cs" />
+        <Compile Include="Factory.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Tools\Landscape.cs" />
-        <Compile Include="Tools\Clocks.cs" />
-        <Compile Include="Tools\Field.cs" />
-        <Compile Include="Tools\IntHelper.cs" />
-        <Compile Include="Tools\ConstantAttribute.cs" />
-        <Compile Include="Tools\RandomHelper.cs" />
-        <Compile Include="Tools\Terrain.cs" />
-        <Compile Include="Tools\Tool.cs" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Constants.json" />
-      <Content Include="README.md" />
-    </ItemGroup>
-    <ItemGroup>
-      <None Include="packages.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\Angem\Angem.csproj">
-        <Project>{8d288079-bc8c-4736-ab3c-6f9f29424b84}</Project>
-        <Name>Angem</Name>
-      </ProjectReference>
-      <ProjectReference Include="..\Precalc\Precalc.csproj">
-        <Project>{6e661b25-e6e2-4254-9249-9919d75a628a}</Project>
-        <Name>Precalc</Name>
-      </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Game" />
+      <Content Include="Templates\2D.txt" />
+      <Content Include="Templates\3D.txt" />
+      <Content Include="Templates\Common.txt" />
+      <Content Include="Templates\Conversion2D.txt" />
+      <Content Include="Templates\Conversion3D.txt" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

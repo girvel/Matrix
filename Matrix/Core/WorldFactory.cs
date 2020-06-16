@@ -1,4 +1,5 @@
 ﻿using System;
+using Angem;
 using Matrix.Tools;
 
 namespace Matrix.Core
@@ -27,7 +28,7 @@ namespace Matrix.Core
 
                 Console.Write(point);
                 
-                var delta = float2.Down;
+                var delta = float2.Back;
                 var maxLineLength = 0;
                 var currentLineLength = 0;
             

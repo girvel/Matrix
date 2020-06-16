@@ -1,4 +1,5 @@
-﻿using Matrix.Tools;
+﻿using Angem;
+using Matrix.Tools;
 
 namespace Matrix.Core
 {
@@ -6,7 +7,7 @@ namespace Matrix.Core
     {
         public readonly Terrain Terrain = new Terrain(0, 4, 0, 0);
 
-        public byte LavaPotential = 0;
+        public byte LavaPotential = 1; // TODO to LavaChance
 
         public bool 
             IsRaining = false;

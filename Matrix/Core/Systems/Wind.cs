@@ -1,4 +1,5 @@
 ﻿using System;
+using Angem;
 using Matrix.Tools;
 using Precalc;
 
@@ -6,14 +7,14 @@ namespace Matrix.Core.Systems
 {
     public class Wind : RegionSystem
     {
-        public int2[] Directions =
+        public readonly int2[] Directions =
             {
                 int2.Right,
             },
             AdditionalDirections =
             {
-                int2.Up,
-                int2.Down,
+                int2.Forward,
+                int2.Back,
             };
 
         public readonly NaturalFunction<double>[] ChanceFunctions;

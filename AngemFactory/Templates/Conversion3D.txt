@@ -1,0 +1,5 @@
+        public static $KEYWORD$ operator $TO$3($FROM$3 original) 
+            => new $TO$3(
+                ($TO$) original.X, 
+                ($TO$) original.Y, 
+                ($TO$) original.Z);

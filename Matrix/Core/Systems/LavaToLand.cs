@@ -1,4 +1,5 @@
-﻿using Matrix.Tools;
+﻿using Angem;
+using Matrix.Tools;
 
 namespace Matrix.Core.Systems
 {
@@ -6,7 +7,7 @@ namespace Matrix.Core.Systems
     {
         public readonly int2[] Directions =
         {
-            int2.Zero, int2.Up, int2.Right, int2.Down, int2.Left,
+            int2.Zero, int2.Forward, int2.Right, int2.Back, int2.Left,
         };
 
         [Constant] public double BasicChance, AdditionalChance;

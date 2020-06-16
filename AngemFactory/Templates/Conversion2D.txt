@@ -1,0 +1,4 @@
+﻿        public static $KEYWORD$ operator $TO$2($FROM$2 original) 
+            => new $TO$2(
+                ($TO$) original.X, 
+                ($TO$) original.Y);

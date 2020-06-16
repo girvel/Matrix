@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Angem;
 using Matrix.Tools;
 using NotImplementedException = System.NotImplementedException;
 
@@ -8,7 +9,7 @@ namespace Matrix.Core.Systems
     {
         public int2[] Directions =
         {
-            int2.Up, int2.Right, int2.Down, int2.Left,
+            int2.Forward, int2.Right, int2.Back, int2.Left,
         };
 
         public int2[][] RandomizedDirections;

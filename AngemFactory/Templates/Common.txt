@@ -1,0 +1,23 @@
+﻿using System;
+
+namespace $ROOT$
+{
+    public readonly struct $TYPE$
+    {
+$CONTENT$
+        
+    
+    
+        public bool Inside($TYPE$ max) => Zero <= this && this < max;
+        
+        public bool Inside($TYPE$ min, $TYPE$ max) => min <= this && this < max;
+        
+        public override bool Equals(object obj) => obj is $TYPE$ other && this == other;
+        
+        public static bool operator !=($TYPE$ v, $TYPE$ u) => !(v == u);
+ 
+        public static bool operator >($TYPE$ size, $TYPE$ v) => v < size;
+ 
+        public static bool operator >=($TYPE$ size, $TYPE$ v) => v <= size;
+    }
+}

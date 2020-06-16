@@ -9,3 +9,5 @@ D:\Users\widau\RiderProjects\Matrix\Matrix\bin\Debug\Newtonsoft.Json.xml
 D:\Users\widau\RiderProjects\Matrix\Matrix\obj\Debug\Matrix.csproj.CopyComplete
 D:\Users\widau\RiderProjects\Matrix\Matrix\bin\Debug\Precalc.dll
 D:\Users\widau\RiderProjects\Matrix\Matrix\bin\Debug\Precalc.pdb
+D:\Users\widau\RiderProjects\Matrix\Matrix\bin\Debug\Angem.dll
+D:\Users\widau\RiderProjects\Matrix\Matrix\bin\Debug\Angem.pdb
