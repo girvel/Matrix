@@ -8,7 +8,7 @@ namespace AngemFactory
     {
         public string[] Types;
 
-        public int[] Sizes;
+        public readonly int[] Sizes = {2, 3};
 
         public string CommonTemplate;
         

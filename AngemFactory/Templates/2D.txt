@@ -38,6 +38,11 @@
         {
             return v1.X * v2.X + v1.Y * v2.Y;
         }
+        
+        public static $TYPE$ operator *($T$ k, $TYPE$ v)
+        {
+            return new $TYPE$(k * v.X, k * v.Y);
+        }
  
         public static bool operator <($TYPE$ v, $TYPE$ size)
         {
@@ -48,6 +53,22 @@
         {
             return v.X <= size.X && v.Y <= size.Y;
         }
+ 
+        public static bool operator <($TYPE$ v, $T$3 size)
+        {
+            return v.X < size.X && v.Y < size.Y;
+        }
+ 
+        public static bool operator <=($TYPE$ v, $T$3 size)
+        {
+            return v.X <= size.X && v.Y <= size.Y;
+        }
+ 
+        public static bool operator >($TYPE$ v, $T$3 size) => !(v <= size)
+ 
+        public static bool operator >=($TYPE$ v, $T$3 size) => !(v < size);
+        
+        public static implicit operator $T$3($TYPE$ original) => new $T$3(original.X, original.Y, 0);
         
 $CONVERSIONS$
  
@@ -70,4 +91,11 @@ $CONVERSIONS$
             return new $TYPE$(
                 ($T$) (X * cos - Y * sin),
                 ($T$) (X * sin + Y * cos));
+        }
+        
+        public IEnumerable<$TYPE$> Range()
+        {
+            for (var y = 0; y < Y; y++)
+            for (var x = 0; x < X; x++)
+                yield return new $TYPE$(x, y);
         }

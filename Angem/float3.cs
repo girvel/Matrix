@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Angem
 {
@@ -45,6 +46,11 @@ namespace Angem
             return new float3(-v.X, -v.Y, -v.Z);
         }
         
+        public static float3 operator *(float k, float3 v)
+        {
+            return new float3(k * v.X, k * v.Y, k * v.Z);
+        }
+        
         public static float operator *(float3 v1, float3 v2)
         {
             return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
@@ -59,6 +65,8 @@ namespace Angem
         {
             return v.X <= size.X && v.Y <= size.Y && v.Z <= size.Z;
         }
+        
+        public static explicit operator float2(float3 original) => new float2(original.X, original.Y);
         
 
         public static explicit operator int3(float3 original) 
@@ -79,6 +87,14 @@ namespace Angem
             }
         }
         
+        public IEnumerable<float3> Range()
+        {
+            for (var z = 0; z < Z; z++)
+            for (var y = 0; y < Y; y++)
+            for (var x = 0; x < X; x++)
+                    yield return new float3(x, y, z);
+        }
+        
     
     
         public bool Inside(float3 max) => Zero <= this && this < max;
@@ -92,5 +108,7 @@ namespace Angem
         public static bool operator >(float3 size, float3 v) => v < size;
  
         public static bool operator >=(float3 size, float3 v) => v <= size;
+        
+        public static float3 operator *(float3 v, float k) => k * v;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Angem
 {
@@ -44,6 +45,11 @@ namespace Angem
         {
             return v1.X * v2.X + v1.Y * v2.Y;
         }
+        
+        public static int2 operator *(int k, int2 v)
+        {
+            return new int2(k * v.X, k * v.Y);
+        }
  
         public static bool operator <(int2 v, int2 size)
         {
@@ -54,6 +60,8 @@ namespace Angem
         {
             return v.X <= size.X && v.Y <= size.Y;
         }
+        
+        public static implicit operator int3(int2 original) => new int3(original.X, original.Y, 0);
         
 
         public static implicit operator float2(int2 original) 
@@ -82,6 +90,13 @@ namespace Angem
                 (int) (X * sin + Y * cos));
         }
         
+        public IEnumerable<int2> Range()
+        {
+            for (var y = 0; y < Y; y++)
+            for (var x = 0; x < X; x++)
+                yield return new int2(x, y);
+        }
+        
     
     
         public bool Inside(int2 max) => Zero <= this && this < max;
@@ -95,5 +110,7 @@ namespace Angem
         public static bool operator >(int2 size, int2 v) => v < size;
  
         public static bool operator >=(int2 size, int2 v) => v <= size;
+        
+        public static int2 operator *(int2 v, int k) => k * v;
     }
 }

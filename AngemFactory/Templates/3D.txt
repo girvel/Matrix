@@ -39,6 +39,11 @@
             return new $TYPE$(-v.X, -v.Y, -v.Z);
         }
         
+        public static $TYPE$ operator *($T$ k, $TYPE$ v)
+        {
+            return new $TYPE$(k * v.X, k * v.Y, k * v.Z);
+        }
+        
         public static $T$ operator *($TYPE$ v1, $TYPE$ v2)
         {
             return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
@@ -53,6 +58,22 @@
         {
             return v.X <= size.X && v.Y <= size.Y && v.Z <= size.Z;
         }
+ 
+        public static bool operator <($TYPE$ v, $T$2 size)
+        {
+            return v.X < size.X && v.Y < size.Y && v.Z < 0;
+        }
+ 
+        public static bool operator <=($TYPE$ v, $T$2 size)
+        {
+            return v.X <= size.X && v.Y <= size.Y && v.Z <= 0;
+        }
+ 
+        public static bool operator >($TYPE$ v, $T$2 size) => !(v <= size)
+ 
+        public static bool operator >=($TYPE$ v, $T$2 size) => !(v < size);
+        
+        public static explicit operator $T$2($TYPE$ original) => new $T$2(original.X, original.Y);
         
 $CONVERSIONS$
  
@@ -66,4 +87,12 @@ $CONVERSIONS$
             {
                 return ((X.GetHashCode() * 397) ^ Y.GetHashCode() * 397) ^ Z.GetHashCode();
             }
+        }
+        
+        public IEnumerable<$TYPE$> Range()
+        {
+            for (var z = 0; z < Z; z++)
+            for (var y = 0; y < Y; y++)
+            for (var x = 0; x < X; x++)
+                    yield return new $TYPE$(x, y, z);
         }

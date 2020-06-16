@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,6 +22,8 @@ namespace Matrix.Tools
 
         public static void UpdateConstants(object instance)
         {
+            Debug.Assert(instance != null);
+            
             foreach (
                 var field 
                 in instance
@@ -30,7 +33,7 @@ namespace Matrix.Tools
             {
                 field.SetValue(
                     instance, 
-                    FileData[$"{instance.GetType().Name}.{field.Name}"].ToObject(field.FieldType));
+                    FileData[instance.GetType().Name][field.Name].ToObject(field.FieldType));
             }
         }
     }

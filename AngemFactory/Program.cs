@@ -8,7 +8,6 @@ namespace AngemFactory
         public static readonly Factory Factory = new Factory
         {
             Types = new[] {"int", "float"},
-            Sizes = new[] {2, 3},
             CommonTemplate = File.ReadAllText("../../Templates/Common.txt"),
             ContentTemplates =
             {
@@ -35,7 +34,7 @@ namespace AngemFactory
             Console.WriteLine("Generation started");
             foreach (var (name, content) in Factory.Generate())
             {
-                using var file = File.OpenWrite(Path.Combine(LibraryRoot, name + ".cs"));
+                using var file = File.Open(Path.Combine(LibraryRoot, name + ".cs"), FileMode.Create);
                 using var stream = new StreamWriter(file);
                 
                 stream.Write(content);
