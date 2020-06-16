@@ -21,6 +21,23 @@
                 v1.X + v2.X,
                 v1.Y + v2.Y);
         }
+        
+        public static $TYPE$ operator -($TYPE$ v1, $TYPE$ v2)
+        {
+            return new $TYPE$(
+                v1.X - v2.X,
+                v1.Y - v2.Y);
+        }
+        
+        public static $TYPE$ operator -($TYPE$ v)
+        {
+            return new $TYPE$(-v.X, -v.Y);
+        }
+        
+        public static $T$ operator *($TYPE$ v1, $TYPE$ v2)
+        {
+            return v1.X * v2.X + v1.Y * v2.Y;
+        }
  
         public static bool operator <($TYPE$ v, $TYPE$ size)
         {
@@ -34,7 +51,7 @@
         
 $CONVERSIONS$
  
-        public override string ToString() => $"{{{X}; {Y}}}";
+        public override string ToString() => $"{{{X:F}; {Y:F} }}";
  
         public static bool operator ==($TYPE$ v, $TYPE$ u) => v.X == u.X && v.Y == u.Y;
  

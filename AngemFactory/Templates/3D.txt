@@ -8,14 +8,14 @@
             Down = new $TYPE$(0, 0, -1);
             
         public readonly $T$ X, Y, Z;
-        public readonly $T$ Area;
+        public readonly $T$ Volume;
         
         public $TYPE$($T$ x, $T$ y, $T$ z)
         {
             X = x;
             Y = y;
             Z = z;
-            Area = X * Y;
+            Volume = X * Y * Z;
         }
         
         public static $TYPE$ operator +($TYPE$ v1, $TYPE$ v2)
@@ -24,6 +24,24 @@
                 v1.X + v2.X,
                 v1.Y + v2.Y,
                 v1.Z + v2.Z);
+        }
+        
+        public static $TYPE$ operator -($TYPE$ v1, $TYPE$ v2)
+        {
+            return new $TYPE$(
+                v1.X - v2.X,
+                v1.Y - v2.Y,
+                v1.Z - v2.Z);
+        }
+        
+        public static $TYPE$ operator -($TYPE$ v)
+        {
+            return new $TYPE$(-v.X, -v.Y, -v.Z);
+        }
+        
+        public static $T$ operator *($TYPE$ v1, $TYPE$ v2)
+        {
+            return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
         }
  
         public static bool operator <($TYPE$ v, $TYPE$ size)
@@ -38,7 +56,7 @@
         
 $CONVERSIONS$
  
-        public override string ToString() => $"{{{X}; {Y}; {Z}}}";
+        public override string ToString() => $"{{{X:F}; {Y:F}; {Z:F} }}";
  
         public static bool operator ==($TYPE$ v, $TYPE$ u) => v.X == u.X && v.Y == u.Y && v.Z == u.Z;
  

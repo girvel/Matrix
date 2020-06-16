@@ -27,6 +27,23 @@ namespace Angem
                 v1.X + v2.X,
                 v1.Y + v2.Y);
         }
+        
+        public static float2 operator -(float2 v1, float2 v2)
+        {
+            return new float2(
+                v1.X - v2.X,
+                v1.Y - v2.Y);
+        }
+        
+        public static float2 operator -(float2 v)
+        {
+            return new float2(-v.X, -v.Y);
+        }
+        
+        public static float operator *(float2 v1, float2 v2)
+        {
+            return v1.X * v2.X + v1.Y * v2.Y;
+        }
  
         public static bool operator <(float2 v, float2 size)
         {
@@ -44,7 +61,7 @@ namespace Angem
                 (int) original.X, 
                 (int) original.Y);
  
-        public override string ToString() => $"{{{X}; {Y}}}";
+        public override string ToString() => $"{{{X:F}; {Y:F} }}";
  
         public static bool operator ==(float2 v, float2 u) => v.X == u.X && v.Y == u.Y;
  

@@ -14,14 +14,14 @@ namespace Angem
             Down = new float3(0, 0, -1);
             
         public readonly float X, Y, Z;
-        public readonly float Area;
+        public readonly float Volume;
         
         public float3(float x, float y, float z)
         {
             X = x;
             Y = y;
             Z = z;
-            Area = X * Y;
+            Volume = X * Y * Z;
         }
         
         public static float3 operator +(float3 v1, float3 v2)
@@ -30,6 +30,24 @@ namespace Angem
                 v1.X + v2.X,
                 v1.Y + v2.Y,
                 v1.Z + v2.Z);
+        }
+        
+        public static float3 operator -(float3 v1, float3 v2)
+        {
+            return new float3(
+                v1.X - v2.X,
+                v1.Y - v2.Y,
+                v1.Z - v2.Z);
+        }
+        
+        public static float3 operator -(float3 v)
+        {
+            return new float3(-v.X, -v.Y, -v.Z);
+        }
+        
+        public static float operator *(float3 v1, float3 v2)
+        {
+            return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
         }
  
         public static bool operator <(float3 v, float3 size)
@@ -49,9 +67,9 @@ namespace Angem
                 (int) original.Y, 
                 (int) original.Z);
  
-        public override string ToString() => $"{{{X}; {Y}; {Z}}}";
+        public override string ToString() => $"{{{X:F}; {Y:F}; {Z:F} }}";
  
-        public static bool operator ==(float3 v, float3 u) => v.X == u.X && v.Y == u.Y && v.Z == v.Z;
+        public static bool operator ==(float3 v, float3 u) => v.X == u.X && v.Y == u.Y && v.Z == u.Z;
  
         public override int GetHashCode()
         {
