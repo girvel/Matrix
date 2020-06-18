@@ -14,14 +14,14 @@ namespace Matrix.Core.Systems
 
         protected override void UpdateEntity(int2 v, Region region)
         {
-            if (!Session.Random.Chance(BasicChance)) return;
+            if (!State.Random.Chance(BasicChance)) return;
 
             foreach (var dir in Directions)
             {
                 if (region.Terrain[Terrain.LAVA] <= 0) break;
-                if (!(v + dir).Inside(Session.Field.Size)) continue;
+                if (!(v + dir).Inside(State.Field.Size)) continue;
                     
-                var other = Session.Field[v + dir];
+                var other = State.Field[v + dir];
                     
                 if (other.Terrain[Terrain.WATER] <= 0) continue;
                     
@@ -32,7 +32,7 @@ namespace Matrix.Core.Systems
                 break;
             }
 
-            if (region.Terrain[Terrain.LAVA] <= 0 || !Session.Random.Chance(AdditionalChance)) return;
+            if (region.Terrain[Terrain.LAVA] <= 0 || !State.Random.Chance(AdditionalChance)) return;
             
             region.Terrain[Terrain.LAND]++;
             region.Terrain[Terrain.LAVA]--;

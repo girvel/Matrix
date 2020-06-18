@@ -9,7 +9,7 @@ namespace Matrix.Core.Systems
 
         protected override void UpdateEntity(int2 position, Region region)
         {
-            if (region.Terrain.Water <= 0 || !(Session.Random.Chance(BasicChance))) return;
+            if (region.Terrain.Water <= 0 || !State.Random.Chance(BasicChance)) return;
             region.Terrain.Water--;
             region.Terrain.Clouds++;
         }

@@ -7,7 +7,7 @@ namespace Matrix.Core
 {
     public abstract class System
     {
-        public Session Session { get; set;  }
+        public State State { get; set;  }
 
         protected abstract void _update();
 

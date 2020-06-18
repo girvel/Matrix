@@ -39,11 +39,11 @@ namespace Matrix.Core.Systems
         {
             foreach (var dir in Directions)
             {
-                if (!(v + dir).Inside(Session.Field.Size)) continue;
+                if (!(v + dir).Inside(State.Field.Size)) continue;
 
-                var other = Session.Field[v + dir];
+                var other = State.Field[v + dir];
                 
-                if (!Session.Random.Chance(
+                if (!State.Random.Chance(
                     ChanceFunctions[gas].Calculate( 
                         region.Terrain.SliceFrom(Terrain.CLOUDS) 
                         - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2)))
@@ -56,10 +56,10 @@ namespace Matrix.Core.Systems
 
             foreach (var dir in AdditionalDirections)
             {
-                if (!(v + dir).Inside(Session.Field.Size)) continue;
+                if (!(v + dir).Inside(State.Field.Size)) continue;
 
-                var other = Session.Field[v + dir];
-                if (!Session.Random.Chance(
+                var other = State.Field[v + dir];
+                if (!State.Random.Chance(
                     ChanceFunctions[gas].Calculate(
                         region.Terrain.SliceFrom(Terrain.CLOUDS) 
                         - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2) / 2)) continue;

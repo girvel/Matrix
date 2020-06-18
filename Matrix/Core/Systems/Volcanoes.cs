@@ -10,7 +10,7 @@ namespace Matrix.Core.Systems
 
         protected override void UpdateEntity(int2 position, Region region)
         {
-            if (Session.Random.Chance(BasicChance))
+            if (State.Random.Chance(BasicChance))
             {
                 region.Terrain.Lava += region.LavaPotential;
             }

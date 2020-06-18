@@ -28,17 +28,17 @@ namespace Matrix.Core.Systems
         public void MoveFluid(int2 v, Region region, byte fluid, double chance)
         {
             region.FlowDirection[fluid] = int2.Zero;
-            foreach (var dir in RandomizedDirections[Session.Random.Next(Directions.Length)])
+            foreach (var dir in RandomizedDirections[State.Random.Next(Directions.Length)])
             {
                 if (region.Terrain[fluid] == 0) break;
-                if (!(v + dir).Inside(Session.Field.Size)) continue;
+                if (!(v + dir).Inside(State.Field.Size)) continue;
 
-                var other = Session.Field[v + dir];
+                var other = State.Field[v + dir];
                 
                 var regionSum = region.Terrain.SliceFrom(fluid);
                 var otherSum = other.Terrain.SliceFrom(fluid);
 
-                if (regionSum - otherSum <= 0 || !Session.Random.Chance(chance)) continue;
+                if (regionSum - otherSum <= 0 || !State.Random.Chance(chance)) continue;
                 
                 other.Terrain[fluid]++;
                 region.Terrain[fluid]--;

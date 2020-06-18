@@ -11,8 +11,8 @@ namespace Matrix.Core.Systems
         
         protected override void _update()
         {
-            var min = Session.Field.Min(t => t.content.Terrain.Land);
-            foreach (var (v, region) in Session.Field)
+            var min = State.Field.Min(t => t.content.Terrain.Land);
+            foreach (var (v, region) in State.Field)
             {
                 region.Terrain.Land -= min;
             }

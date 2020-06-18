@@ -20,7 +20,7 @@ namespace Matrix.Core.Systems
 
         protected override void UpdateEntity(int2 position, Region region)
         {
-            region.IsRaining = Session.Random.Chance(ChanceFunction.Calculate(region.Terrain.Clouds));
+            region.IsRaining = State.Random.Chance(ChanceFunction.Calculate(region.Terrain.Clouds));
             if (!region.IsRaining) return;
             region.Terrain.Clouds--;
             region.Terrain.Water++;

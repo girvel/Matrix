@@ -47,6 +47,7 @@
         <Compile Include="Core\Region.cs" />
         <Compile Include="Core\RegionDisplayer.cs" />
         <Compile Include="Core\Session.cs" />
+        <Compile Include="Core\State.cs" />
         <Compile Include="Core\System.cs" />
         <Compile Include="Core\Systems\Cleaning.cs" />
         <Compile Include="Core\Systems\Display.cs" />
@@ -84,9 +85,6 @@
         <Project>{6e661b25-e6e2-4254-9249-9919d75a628a}</Project>
         <Name>Precalc</Name>
       </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Game" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

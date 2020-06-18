@@ -10,45 +10,16 @@ namespace Matrix.Core
 {
     public class Session
     {
-        public Field<Region> Field { get; private set; }
-        public volatile Random Random;
         public System[] Systems;
-        
-        public DateTime CurrentDate = new DateTime(1, 1, 1);
-        public byte AverageWaterHeight;
 
-
+        public State State;
 
         public void Start()
         {
-            Console.CursorVisible = false;
-            Console.Title = "Matrix";
+            State = new WorldFactory().Produce(
+                new int2(Console.WindowWidth - 1, Console.WindowHeight - 5));
 
-            Systems = new Core.System[]
-            {
-                new Display(), 
-                new Volcanoes(), 
-                new LavaToLand(), 
-                new Flow(),
-                new Wind(),
-                new Rain(),
-                new Evaporation(), 
-                new Cleaning(), 
-            };
-
-            foreach (var s in Systems)
-            {
-                s.Session = this;
-            }
-            
-            Console.Write("Seed: @");
-            Random = new Random(Console.ReadLine()?.GetHashCode() ?? 0);
-            
-            Field = new WorldFactory().Produce(
-                new int2(Console.WindowWidth - 1, Console.WindowHeight - 5), 
-                Random);
-
-            Console.CancelKeyPress += (o, args) =>
+            void SaveStatistics()
             {
                 var directory = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -63,22 +34,35 @@ namespace Matrix.Core
                     File.OpenWrite(Path.Combine(directory, $"Statistics of {DateTime.Now:dd.MM.yyyy HH-mm-ss}.json"));
                 using var writer = new StreamWriter(file);
                 writer.Write(JsonConvert.SerializeObject(System.GetFrequency(Systems), Formatting.Indented));
+            }
+
+            Systems = new System[]
+            {
+                new Display(SaveStatistics), 
+                new Volcanoes(), 
+                new LavaToLand(), 
+                new Flow(),
+                new Wind(),
+                new Rain(),
+                new Evaporation(), 
+                new Cleaning(), 
             };
+
+            foreach (var s in Systems)
+            {
+                s.State = State;
+            }
 
             while (true)
             {
-                using (new Clocks.Timer("FPS"))
+                using (new Clocks.Timer("SYSTEMS FQ"))
                 {
                     foreach (var s in Systems)
                     {
                         s.Update();
                     }
 
-                    CurrentDate += TimeSpan.FromDays(1);
-            
-                    AverageWaterHeight = (byte) Field
-                        .Where(t => t.content.Terrain.Water != 0)
-                        .Average(t => t.content.Terrain.SliceFrom(Terrain.WATER));
+                    State.Date += TimeSpan.FromDays(1);
                 }
             }
         }

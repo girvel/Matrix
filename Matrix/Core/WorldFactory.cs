@@ -6,24 +6,35 @@ namespace Matrix.Core
 {
     public class WorldFactory
     {
-        public byte DefaultLavaPotential = 25;
+        [Constant] public byte DefaultLavaPotential;
 
-        public double RiftsDensity = 0.027;
+        [Constant] public double RiftsDensity;
 
-        public int MinRiftLineLength = 10, MaxRiftLineLength = 20;
-        
-        
-        
-        public Field<Region> Produce(int2 size, Random random)
+        [Constant] public int MinRiftLineLength, MaxRiftLineLength;
+
+
+
+        public WorldFactory()
         {
-            var result = new Field<Region>(size, v => new Region());
+            ConstantAttribute.UpdateConstants(this);
+        }
+        
+        public State Produce(int2 size)
+        {
+            var result = new State {Field = new Field<Region>(size, v => new Region())};
+            
+            Console.Write("Seed: @");
+            result.Random = new Random(Console.ReadLine()?.GetHashCode() ?? 0);
 
             Console.WriteLine("Rift generation begins");
 
             var startingPoint = float2.Zero;
             for (var _ = 0; _ < (size.X + size.Y) * RiftsDensity; _++)
             {
-                startingPoint = new float2((startingPoint.X + random.Next(size.X / 3, size.X * 2 / 3)) % size.X, 0);
+                startingPoint = new float2(
+                    (startingPoint.X + result.Random.Next(size.X / 3, size.X * 2 / 3)) % size.X, 
+                    0);
+                
                 var point = startingPoint;
 
                 Console.Write(point);
@@ -34,12 +45,12 @@ namespace Matrix.Core
             
                 while (((int2) point).Inside(size))
                 {
-                    result[(int2) point].LavaPotential += DefaultLavaPotential;
+                    result.Field[(int2) point].LavaPotential += DefaultLavaPotential;
                     
                     if (currentLineLength >= maxLineLength)
                     {
-                        delta = delta.Rotated(random.NextDouble(-45, 45));
-                        maxLineLength = random.Next(MinRiftLineLength, MaxRiftLineLength);
+                        delta = delta.Rotated(result.Random.NextDouble(-45, 45));
+                        maxLineLength = result.Random.Next(MinRiftLineLength, MaxRiftLineLength);
                         currentLineLength = 0;
                     }
                     

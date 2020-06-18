@@ -10,7 +10,7 @@ namespace Matrix.Core
 
         protected override void _update()
         {
-            foreach (var (position, region) in Session.Field)
+            foreach (var (position, region) in State.Field)
             {
                 UpdateEntity(position, region);
             }

@@ -1,18 +1,26 @@
 ﻿using System;
+using System.Linq;
 using Matrix.Tools;
 
 namespace Matrix.Core.Systems
 {
     public class Display : Core.System
     {
-#if DEBUG
-        public Display()
+        public Display(Action cancelKeyAction)
         {
+            Console.CursorVisible = false;
+            Console.Title = "Matrix";
+            
+#if DEBUG
             Rarity = 30;
-        }
 #endif
+
+            Console.CancelKeyPress += (o, args) => cancelKeyAction();
+        }
         
         public RegionDisplayer Displayer { get; } = new RegionDisplayer();
+        
+        public byte AverageWaterHeight;
         
         private void ShowData(string name, object value, string unitOfMeasure=null)
         {
@@ -42,26 +50,31 @@ namespace Matrix.Core.Systems
         
         protected override void _update()
         {
+            AverageWaterHeight = (byte) State.Field
+                .Where(t => t.content.Terrain.Water != 0)
+                .Average(t => t.content.Terrain.SliceFrom(Terrain.WATER));
+            
             Console.ResetColor();
             Console.SetCursorPosition(0, 0);
 
             var line = "";
-            foreach (var (v, region) in Session.Field)
+            foreach (var (v, region) in State.Field)
             {
-                var atom = Displayer.RegionToConsoleAtom(region, Session.AverageWaterHeight);
+                var (character, foreground, background) 
+                    = Displayer.RegionToConsoleAtom(region, AverageWaterHeight);
 
-                if (atom.background != Console.BackgroundColor || atom.foreground != Console.ForegroundColor)
+                if (background != Console.BackgroundColor || foreground != Console.ForegroundColor)
                 {
                     Console.Write(line);
                     Console.CursorVisible = false;
                     line = "";
-                    Console.BackgroundColor = atom.background;
-                    Console.ForegroundColor = atom.foreground;
+                    Console.BackgroundColor = background;
+                    Console.ForegroundColor = foreground;
                 }
                     
-                line += atom.character;
+                line += character;
 
-                if (v.X == Session.Field.Size.X - 1)
+                if (v.X == State.Field.Size.X - 1)
                 {
                     line += "\n";
                 }
@@ -72,9 +85,9 @@ namespace Matrix.Core.Systems
             
             Console.ResetColor();
             
-            ShowData("FPS", 1 / Clocks.ResumeData("FPS"));
-            ShowData("Size", Session.Field.Size.Area / 0.4047, "acre");
-            ShowData("Date", Session.CurrentDate);
+            ShowData("Fq", 1 / Clocks.ResumeData("SYSTEMS FQ"));
+            ShowData("Size", State.Field.Size.Area / 0.4047, "acre");
+            ShowData("Date", State.Date);
         }
     }
 }
