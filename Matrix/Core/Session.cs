@@ -42,6 +42,7 @@ namespace Matrix.Core
                 new Volcanoes(), 
                 new LavaToLand(), 
                 new Flow(),
+                new Pressure(),
                 new Wind(),
                 new Rain(),
                 new Evaporation(), 

@@ -13,10 +13,10 @@ namespace Matrix.Core.Systems
         protected override void UpdateEntity(int2 position, Region region)
         {
             region.Pressure = CloudsK * region.Terrain.Clouds
-                              + 1.0 / region.Terrain.SliceFrom(Terrain.WATER)
-                              + NearCloudsK / State.Directions
+                              - NearCloudsK * State.Directions
                                   .Where(d => (position + d).Inside(State.Field.Size))
-                                  .Sum(d => State.Field[position + d].Terrain.Clouds);
+                                  .Sum(d => State.Field[position + d].Terrain.Clouds)
+                              - region.Terrain.SliceFrom(Terrain.WATER);
         }
     }
 }
