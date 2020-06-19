@@ -54,12 +54,15 @@
         <Compile Include="Core\Systems\Evaporation.cs" />
         <Compile Include="Core\Systems\Flow.cs" />
         <Compile Include="Core\Systems\LavaToLand.cs" />
+        <Compile Include="Core\Systems\Pressure.cs" />
         <Compile Include="Core\Systems\Rain.cs" />
         <Compile Include="Core\Systems\Volcanoes.cs" />
         <Compile Include="Core\Systems\Wind.cs" />
         <Compile Include="Core\WorldFactory.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Tools\ArrayHelper.cs" />
+        <Compile Include="Tools\IDeeplyCloneable.cs" />
         <Compile Include="Tools\Landscape.cs" />
         <Compile Include="Tools\Clocks.cs" />
         <Compile Include="Tools\Field.cs" />

@@ -29,5 +29,9 @@
   "LavaToLand": {
     "BasicChance": 0.95,
     "AdditionalChance": 0.1
+  },
+  "Pressure": {
+    "CloudsK": 1,
+    "NearCloudsK": 0.25
   }
 }

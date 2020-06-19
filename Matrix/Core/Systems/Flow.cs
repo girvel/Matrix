@@ -7,28 +7,10 @@ namespace Matrix.Core.Systems
 {
     public class Flow : RegionSystem
     {
-        public int2[] Directions =
-        {
-            int2.Forward, int2.Right, int2.Back, int2.Left,
-        };
-
-        public int2[][] RandomizedDirections;
-
-        public Flow()
-        {
-            RandomizedDirections = Enumerable
-                .Range(0, Directions.Length)
-                .Select(i => Enumerable
-                    .Range(i, Directions.Length)
-                    .Select(j => Directions[j % Directions.Length])
-                    .ToArray())
-                .ToArray();
-        }
-        
         public void MoveFluid(int2 v, Region region, byte fluid, double chance)
         {
             region.FlowDirection[fluid] = int2.Zero;
-            foreach (var dir in RandomizedDirections[State.Random.Next(Directions.Length)])
+            foreach (var dir in State.Random.Choice(State.RandomizedDirections))
             {
                 if (region.Terrain[fluid] == 0) break;
                 if (!(v + dir).Inside(State.Field.Size)) continue;

@@ -57,12 +57,15 @@ namespace Matrix.Core
             {
                 using (new Clocks.Timer("SYSTEMS FQ"))
                 {
+                    // State.NextField = State.Field.DeepClone();
+                        
                     foreach (var s in Systems)
                     {
                         s.Update();
                     }
 
                     State.Date += TimeSpan.FromDays(1);
+                    // State.Field = State.NextField;
                 }
             }
         }

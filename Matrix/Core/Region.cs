@@ -13,5 +13,7 @@ namespace Matrix.Core
             IsRaining = false;
 
         public readonly int2[] FlowDirection = new int2[Terrain.Size];
+
+        public double Pressure;
     }
 }

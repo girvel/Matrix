@@ -5,11 +5,17 @@ using Angem;
 
 namespace Matrix.Tools
 {
-    public class Field<T> : IEnumerable<(int2 v, T content)>
+    public class Field<T> : IEnumerable<(int2 v, T content)>//, IDeeplyCloneable<Field<T>>
+    //where T : IDeeplyCloneable<T>
     {
-        protected readonly T[] InternalArray;
+        protected T[] InternalArray { get; private set; }
 
-        public int2 Size { get; }
+        public int2 Size { get; private set; }
+
+        private Field()
+        {
+            
+        }
 
         public Field(int2 size, Func<int2, T> filler = null)
         {
@@ -51,5 +57,14 @@ namespace Matrix.Tools
         {
             return GetEnumerator();
         }
+
+        // public Field<T> DeepClone()
+        // {
+        //     return new Field<T>
+        //     {
+        //         InternalArray = InternalArray.DeepClone(),
+        //         Size = Size,
+        //     };
+        // }
     }
 }

@@ -37,36 +37,16 @@ namespace Matrix.Core.Systems
         
         public void MoveGas(int2 v, Region region, byte gas)
         {
-            foreach (var dir in Directions)
+            foreach (var d in State.Random.Choice(State.RandomizedDirections))
             {
-                if (!(v + dir).Inside(State.Field.Size)) continue;
+                if (!(v + d).Inside(State.Field.Size)) continue;
+                var other = State.Field[v + d];
 
-                var other = State.Field[v + dir];
-                
-                if (!State.Random.Chance(
-                    ChanceFunctions[gas].Calculate( 
-                        region.Terrain.SliceFrom(Terrain.CLOUDS) 
-                        - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2)))
-                    continue;
+                if (region.Pressure <= other.Pressure
+                    || !State.Random.Chance(BasicChances[gas])) continue;
 
                 other.Terrain.Clouds += region.Terrain.Clouds;
                 region.Terrain.Clouds = 0;
-                break;
-            }
-
-            foreach (var dir in AdditionalDirections)
-            {
-                if (!(v + dir).Inside(State.Field.Size)) continue;
-
-                var other = State.Field[v + dir];
-                if (!State.Random.Chance(
-                    ChanceFunctions[gas].Calculate(
-                        region.Terrain.SliceFrom(Terrain.CLOUDS) 
-                        - other.Terrain.SliceFrom(Terrain.CLOUDS) - 2) / 2)) continue;
-
-                other.Terrain.Clouds += region.Terrain.Clouds;
-                region.Terrain.Clouds = 0;
-                break;
             }
         }
 
