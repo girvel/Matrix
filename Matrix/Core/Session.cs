@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Angem;
 using Matrix.Core.Systems;
 using Matrix.Tools;
@@ -36,6 +38,21 @@ namespace Matrix.Core
                 writer.Write(JsonConvert.SerializeObject(System.GetFrequency(Systems), Formatting.Indented));
             }
 
+            var inputActions = new Dictionary<ConsoleKey, Action>
+            {
+                [ConsoleKey.C] = () => Systems.OfType<Display>().First().Displayer.AreCloudsVisible ^= true,
+            };
+            
+            var inputThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    if (inputActions.TryGetValue(Console.ReadKey(true).Key, out var a)) a();
+                }
+            });
+
+            inputThread.Start();
+            
             Systems = new System[]
             {
                 new Display(SaveStatistics), 
