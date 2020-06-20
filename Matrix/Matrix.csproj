@@ -53,6 +53,8 @@
         <Compile Include="Core\Systems\Display.cs" />
         <Compile Include="Core\Systems\Evaporation.cs" />
         <Compile Include="Core\Systems\Flow.cs" />
+        <Compile Include="Core\Systems\Input\Input.cs" />
+        <Compile Include="Core\Systems\Input\UiActionAttribute.cs" />
         <Compile Include="Core\Systems\LavaToLand.cs" />
         <Compile Include="Core\Systems\Pressure.cs" />
         <Compile Include="Core\Systems\Rain.cs" />

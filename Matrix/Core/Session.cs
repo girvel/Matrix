@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Angem;
 using Matrix.Core.Systems;
+using Matrix.Core.Systems.Input;
 using Matrix.Tools;
 using Newtonsoft.Json;
 
@@ -13,6 +14,8 @@ namespace Matrix.Core
     public class Session
     {
         public System[] Systems;
+
+        public System InputSystem;
 
         public State State;
 
@@ -38,24 +41,11 @@ namespace Matrix.Core
                 writer.Write(JsonConvert.SerializeObject(System.GetFrequency(Systems), Formatting.Indented));
             }
 
-            var inputActions = new Dictionary<ConsoleKey, Action>
-            {
-                [ConsoleKey.C] = () => Systems.OfType<Display>().First().Displayer.AreCloudsVisible ^= true,
-            };
-            
-            var inputThread = new Thread(() =>
-            {
-                while (true)
-                {
-                    if (inputActions.TryGetValue(Console.ReadKey(true).Key, out var a)) a();
-                }
-            });
-
-            inputThread.Start();
+            var displayer = new RegionDisplayer();
             
             Systems = new System[]
             {
-                new Display(SaveStatistics), 
+                new Display(displayer, SaveStatistics), 
                 new Volcanoes(), 
                 new LavaToLand(), 
                 new Flow(),
@@ -70,6 +60,13 @@ namespace Matrix.Core
             {
                 s.State = State;
             }
+
+            InputSystem = new Input(displayer);
+            new Thread(() =>
+            {
+                while (true) InputSystem.Update();
+            }).Start();
+            InputSystem.State = State;
 
             while (true)
             {

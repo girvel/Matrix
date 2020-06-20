@@ -6,8 +6,9 @@ namespace Matrix.Core.Systems
 {
     public class Display : Core.System
     {
-        public Display(Action cancelKeyAction)
+        public Display(RegionDisplayer displayer, Action cancelKeyAction)
         {
+            Displayer = displayer;
             Console.CursorVisible = false;
             Console.Title = "Matrix";
             
@@ -18,7 +19,7 @@ namespace Matrix.Core.Systems
             Console.CancelKeyPress += (o, args) => cancelKeyAction();
         }
         
-        public RegionDisplayer Displayer { get; } = new RegionDisplayer();
+        public RegionDisplayer Displayer { get; }
         
         public byte AverageWaterHeight;
         
